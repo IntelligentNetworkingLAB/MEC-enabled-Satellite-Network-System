@@ -120,8 +120,9 @@ public class CubeSatAgent : Agent
 
             float Tser = Ttran + Tcomp;
             float Pser = Ptran + Pcomp;
-            result += (1f * Tser) + (1f * Pser);
+            float eta = 0.7f;
+            result += (eta * Tser) + ((1 - eta) * Pser);
         }
-        return 2e+3f / result;
+        return 1e+3f / result;
     }
 }

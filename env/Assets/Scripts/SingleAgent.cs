@@ -45,7 +45,7 @@ public class SingleAgent : Agent
             vTaskPower[i] = Random.Range(15, 70); // Gigacycle/sec
         }
 
-        isKind = (Random.value > 0.5f);
+        isKind = false;
     }
 
     public override void CollectObservations(VectorSensor sensor)
@@ -85,6 +85,8 @@ public class SingleAgent : Agent
             //SetReward(100f * (afterReward - preReward) + 85f);
             SetReward(afterReward);
         }
+
+        isKind = true;
     }
 
     float GetReward()
@@ -128,7 +130,8 @@ public class SingleAgent : Agent
 
                 float Tser = Ttran + Tcomp;
                 float Pser = Ptran + Pcomp;
-                result += (1f * Tser) + (1f * Pser);
+                float eta = 0.3f;
+                result += (eta * Tser) + ((1 - eta) * Pser);
             }
         }
         else // LEO
@@ -168,9 +171,10 @@ public class SingleAgent : Agent
 
                 float Tser = Ttran + Tcomp;
                 float Pser = Ptran + Pcomp;
-                result += (1f * Tser) + (1f * Pser);
+                float eta = 0.3f;
+                result += (eta * Tser) + ((1 - eta) * Pser);
             }
         }
-        return 2e+3f / result;
+        return 1e+3f / result;
     }
 }
